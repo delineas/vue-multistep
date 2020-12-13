@@ -14,7 +14,7 @@ const routes = [
     component: () => import('./views/About.vue')
   },
   {
-    path: '/form/:step',
+    path: '/form/:step(\\d+)',
     component: FormSteps,
     name: 'form'
   }
