@@ -16,7 +16,10 @@ const routes = [
   {
     path: '/form/:step(\\d+)',
     component: FormSteps,
-    name: 'form'
+    name: 'form',
+    meta: {
+      steps: [1,2]
+    }
   }
 ]
 

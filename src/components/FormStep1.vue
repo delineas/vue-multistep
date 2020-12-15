@@ -7,17 +7,25 @@
       <el-input-number v-model="form.age"></el-input-number>
     </el-form-item>
   </el-form>
+  <form-nav :steps="steps"></form-nav>
+  <hr/>
+  {{ $store.state.form }}
 </template>
 
 <script>
+import FormNav from '../components/FormNav.vue';
+
 export default {
-  data() {
-    return {
-      form: {
-        name: "",
-        age: 0,
-      },
-    };
+  components: {
+    FormNav
+  },
+  computed: {
+    steps() {
+      return this.$route.meta.steps;
+    },
+    form() {
+      return this.$store.state.form;
+    }
   }
 };
 </script>
