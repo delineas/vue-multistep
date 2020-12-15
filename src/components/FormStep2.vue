@@ -7,17 +7,18 @@
       <el-switch v-model="form.malandriner"> </el-switch>
     </el-form-item>
   </el-form>
-  <form-nav :steps="steps"></form-nav>
-    <hr/>
+  <form-nav :steps="steps" @click:end="finish"></form-nav>
+  <hr />
   {{ $store.state.form }}
 </template>
 
 <script>
+import { ElNotification } from "element-plus";
 import FormNav from "../components/FormNav.vue";
 
 export default {
   components: {
-    FormNav
+    FormNav,
   },
   computed: {
     steps() {
@@ -25,8 +26,28 @@ export default {
     },
     form() {
       return this.$store.state.form;
-    }
-  }
+    },
+  },
+  methods: {
+    finish() {
+      this.$store
+        .dispatch("sendForm", this.form)
+        .then((data) => {
+          console.log("sendForm", data);
+          ElNotification.success({
+            title: "Terminado",
+            message: "Has enviado el formulario",
+          });
+        })
+        .catch((e) => {
+          console.log("Error", e);
+          ElNotification.error({
+            title: "Fallo",
+            message: "Algo ha ido mal",
+          });
+        });
+    },
+  },
 };
 </script>
 
