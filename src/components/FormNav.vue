@@ -48,19 +48,14 @@ export default {
         title: "Info",
         message: "Has vuelto a la home!",
       });
-      router.push({ name: "home" });
     };
 
     const back = () => {
       emit("click:back");
-      let currentStep = route.params.step;
-      router.push({ name: "form", params: { step: --currentStep } });
     };
 
     const next = () => {
       emit("click:next");
-      // let currentStep = route.params.step;
-      // router.push({ name: "form", params: { step: ++currentStep } });
     };
 
     const end = () => {
@@ -69,7 +64,6 @@ export default {
         title: "Ok",
         message: "El formulario ha sido enviado",
       });
-      router.push({ name: "home" });
     };
 
     return {

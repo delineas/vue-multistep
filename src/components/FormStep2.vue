@@ -7,7 +7,7 @@
       <el-switch v-model="form.malandriner"> </el-switch>
     </el-form-item>
   </el-form>
-  <form-nav :steps="steps" @click:end="finish"></form-nav>
+  <form-nav :steps="steps" @click:back="back" @click:end="finish"></form-nav>
   <hr />
   {{ $store.state.form }}
 </template>
@@ -29,6 +29,10 @@ export default {
     },
   },
   methods: {
+    back() {
+      let currentStep = this.$route.params.step;
+      this.$router.push({ name: "form", params: { step: --currentStep } });
+    },
     finish() {
       this.$store
         .dispatch("sendForm", this.form)
@@ -38,6 +42,7 @@ export default {
             title: "Terminado",
             message: "Has enviado el formulario",
           });
+          this.$router.push({ name: "home" });
         })
         .catch((e) => {
           console.log("Error", e);

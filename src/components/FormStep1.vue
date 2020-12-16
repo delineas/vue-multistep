@@ -60,6 +60,7 @@ export default {
     },
     cancel() {
       this.$store.commit('resetForm');
+      this.$router.push({ name: "home" });
     }
   }
 };
