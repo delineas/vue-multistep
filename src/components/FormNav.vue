@@ -16,7 +16,7 @@
 <script>
 import { ElNotification } from "element-plus";
 import { computed, toRefs } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 export default {
   props: {
@@ -32,7 +32,6 @@ export default {
   setup(props, { emit }) {
     const { steps } = toRefs(props);
     const route = useRoute();
-    const router = useRouter();
 
     const isFirstStep = computed(
       () => route.params.step == steps.value.slice(0, 1)
