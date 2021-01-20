@@ -13,8 +13,13 @@ export default {
   },
   computed: {
     getComponent() {
-      return `FormStep${this.$route.params.step}`
+      return `FormStep${this.$route.params.step}`;
+    },
+  },
+  mounted() {
+    if (!this.$route.meta.steps.includes(Number(this.$route.params.step))) {
+      this.$router.push({ name: "not-found" });
     }
-  }
+  },
 };
 </script>

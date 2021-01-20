@@ -1,27 +1,41 @@
-import { createRouter, createWebHashHistory } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router";
 
-import Home from './views/Home'
-import FormSteps from './views/FormSteps'
+import Home from "./views/Home";
+import FormSteps from "./views/FormSteps";
 
 const routes = [
   {
-    path: '/',
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: () => import("./views/NotFound.vue"),
+  },
+  {
+    path: "/",
     component: Home,
-    name: 'home'
+    name: "home",
   },
   {
-    path: '/about',
-    component: () => import('./views/About.vue')
+    path: "/about",
+    component: () => import("./views/About.vue"),
   },
   {
-    path: '/form/:step(\\d+)',
+    path: "/form",
+    redirect: {
+      name: "form",
+      params: {
+        step: 1
+      }
+    },
+  },
+  {
+    path: "/form/:step(\\d+)",
     component: FormSteps,
-    name: 'form',
+    name: "form",
     meta: {
-      steps: [1,2]
-    }
-  }
-]
+      steps: [1, 2],
+    },
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
