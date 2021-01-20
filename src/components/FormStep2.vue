@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" label-position="left" label-width="200px" :model="form">
+  <el-form :ref="formName" label-position="left" label-width="200px" :model="form">
     <el-form-item label="Ciudad">
       <el-input v-model="form.city"></el-input>
     </el-form-item>
@@ -15,34 +15,43 @@
 <script>
 import { ElNotification } from "element-plus";
 import FormNav from "../components/FormNav.vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { ref } from 'vue';
 
 export default {
   components: {
     FormNav,
   },
-  computed: {
-    steps() {
-      return this.$route.meta.steps;
-    },
-    form() {
-      return this.$store.state.form;
-    },
+  data() {
+    return {
+      formName: "formRef"
+    }
   },
-  methods: {
-    back() {
-      let currentStep = this.$route.params.step;
-      this.$router.push({ name: "form", params: { step: --currentStep } });
-    },
-    finish() {
-      this.$store
-        .dispatch("sendForm", this.form)
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+    const formRef = ref(null);
+
+    const form = store.state.form;
+
+    const back = () => {
+      let currentStep = route.params.step;
+      router.push({ name: "form", params: { step: --currentStep } });
+    }
+
+    const finish = () => {
+      store
+        .dispatch("sendForm", form)
         .then((data) => {
           console.log("sendForm", data);
           ElNotification.success({
             title: "Terminado",
             message: "Has enviado el formulario",
           });
-          this.$router.push({ name: "home" });
+          store.commit("resetForm");
+          router.push({ name: "home" });
         })
         .catch((e) => {
           console.log("Error", e);
@@ -51,6 +60,18 @@ export default {
             message: "Algo ha ido mal",
           });
         });
+    }
+
+    return {
+      form,
+      formRef,
+      finish,
+      back
+    }
+  },
+  computed: {
+    steps() {
+      return this.$route.meta.steps;
     },
   },
 };
