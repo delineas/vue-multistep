@@ -8,16 +8,11 @@
     </el-form-item>
   </el-form>
   <form-nav :steps="$route.meta.steps" @click:back="back" @click:end="finish"></form-nav>
-  <hr />
-  {{ $store.state.form }}
 </template>
 
 <script>
-import { ElNotification } from "element-plus";
 import FormNav from "../components/FormNav.vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
-import { ref } from 'vue';
+import { useFormStep } from "../utils/useFormStep"
 
 export default {
   components: {
@@ -29,38 +24,8 @@ export default {
     }
   },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const formRef = ref(null);
-
-    const form = store.state.form;
-
-    const back = () => {
-      let currentStep = route.params.step;
-      router.push({ name: "form", params: { step: --currentStep } });
-    }
-
-    const finish = () => {
-      store
-        .dispatch("sendForm", form)
-        .then((data) => {
-          console.log("sendForm", data);
-          ElNotification.success({
-            title: "Terminado",
-            message: "Has enviado el formulario",
-          });
-          store.commit("resetForm");
-          router.push({ name: "home" });
-        })
-        .catch((e) => {
-          console.log("Error", e);
-          ElNotification.error({
-            title: "Fallo",
-            message: "Algo ha ido mal",
-          });
-        });
-    }
+    
+    const { form, formRef, finish, back } = useFormStep();
 
     return {
       form,

@@ -14,16 +14,12 @@
     </el-form-item>
   </el-form>
   <form-nav :steps="$route.meta.steps" @click:cancel="cancel" @click:next="next"></form-nav>
-  <hr />
-  {{ $store.state.form }}
 </template>
 
 <script>
 import FormNav from "../components/FormNav.vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
-import { ref } from 'vue';
-import { useNotification } from '../utils/useNotification';
+import { useFormStep } from "../utils/useFormStep"
+
 
 export default {
   components: {
@@ -48,30 +44,8 @@ export default {
     };
   },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const notification = useNotification();
-    const formRef = ref(null);
-
-    const form = store.state.form;
-
-    const cancel = () => {
-      store.commit("resetForm");
-      router.push({ name: "home" });
-    };
-
-    const next = () => {
-      formRef.value.validate((valid) => {
-        if (!valid) {
-          notification("error", "Error en el formulario");
-          return false;
-        }
-        store.commit("setForm", form);
-        let currentStep = route.params.step;
-        router.push({ name: "form", params: { step: ++currentStep } });
-      });
-    };
+    
+    const { form, formRef, cancel, next } = useFormStep();
 
     return {
       form,
