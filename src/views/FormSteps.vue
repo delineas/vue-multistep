@@ -5,11 +5,13 @@
 <script>
 import FormStep1 from "../components/FormStep1";
 import FormStep2 from "../components/FormStep2";
+import FormStep3 from "../components/FormStep3";
 
 export default {
   components: {
     FormStep1,
     FormStep2,
+    FormStep3,
   },
   computed: {
     getComponent() {

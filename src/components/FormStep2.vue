@@ -1,18 +1,22 @@
 <template>
-  <el-form :ref="formName" label-position="left" label-width="200px" :model="form">
-    <el-form-item label="Ciudad">
-      <el-input v-model="form.city"></el-input>
-    </el-form-item>
-    <el-form-item label="¿Es malandriner?">
-      <el-switch v-model="form.malandriner"> </el-switch>
+  <el-form
+    :ref="formName"
+    label-position="left"
+    label-width="200px"
+    :model="form"
+    :rules="rules"
+  >
+    <el-form-item label="País" prop="country">
+      <el-input v-model="form.country"></el-input>
     </el-form-item>
   </el-form>
-  <form-nav :steps="$route.meta.steps" @click:back="back" @click:end="finish"></form-nav>
+  <form-nav :steps="$route.meta.steps" @click:back="back" @click:next="next"></form-nav>
 </template>
 
 <script>
 import FormNav from "../components/FormNav.vue";
 import { useFormStep } from "../utils/useFormStep"
+
 
 export default {
   components: {
@@ -20,18 +24,26 @@ export default {
   },
   data() {
     return {
-      formName: "formRef"
-    }
+      formName: "formRef",
+      rules: {
+        country: [
+          {
+            required: true,
+            message: "El país es obligatorio",
+          },
+        ],
+      },
+    };
   },
   setup() {
     
-    const { form, formRef, finish, back } = useFormStep();
+    const { form, formRef, back, next } = useFormStep();
 
     return {
       form,
       formRef,
-      finish,
-      back
+      back,
+      next
     }
   },
 };

@@ -32,7 +32,7 @@ const routes = [
     component: FormSteps,
     name: "form",
     meta: {
-      steps: [1, 2],
+      steps: [1, 2, 3],
     },
   },
 ];

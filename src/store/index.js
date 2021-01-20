@@ -5,6 +5,7 @@ export default createStore({
     form: {
       name: "",
       age: 0,
+      contry: "",
       city: "",
       malandriner: false,
     },
@@ -18,6 +19,7 @@ export default createStore({
       Object.assign(state.form, {
         name: "",
         age: 0,
+        contry: "",
         city: "",
         malandriner: false,
       });
@@ -33,9 +35,7 @@ export default createStore({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(state.form),
-      })
-        .then((response) => response.json())
-
+      }).then((response) => response.json());
     },
   },
 });
