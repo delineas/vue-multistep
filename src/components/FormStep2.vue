@@ -7,7 +7,7 @@
       <el-switch v-model="form.malandriner"> </el-switch>
     </el-form-item>
   </el-form>
-  <form-nav :steps="steps" @click:back="back" @click:end="finish"></form-nav>
+  <form-nav :steps="$route.meta.steps" @click:back="back" @click:end="finish"></form-nav>
   <hr />
   {{ $store.state.form }}
 </template>
@@ -68,11 +68,6 @@ export default {
       finish,
       back
     }
-  },
-  computed: {
-    steps() {
-      return this.$route.meta.steps;
-    },
   },
 };
 </script>

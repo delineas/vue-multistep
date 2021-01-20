@@ -13,17 +13,17 @@
       <el-input-number v-model="form.age"></el-input-number>
     </el-form-item>
   </el-form>
-  <form-nav :steps="steps" @click:cancel="cancel" @click:next="next"></form-nav>
+  <form-nav :steps="$route.meta.steps" @click:cancel="cancel" @click:next="next"></form-nav>
   <hr />
   {{ $store.state.form }}
 </template>
 
 <script>
-import { ElNotification } from "element-plus";
 import FormNav from "../components/FormNav.vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { ref } from 'vue';
+import { useNotification } from '../utils/useNotification';
 
 export default {
   components: {
@@ -51,6 +51,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const notification = useNotification();
     const formRef = ref(null);
 
     const form = store.state.form;
@@ -63,7 +64,7 @@ export default {
     const next = () => {
       formRef.value.validate((valid) => {
         if (!valid) {
-          ElNotification.error("Error en el formulario");
+          notification("error", "Error en el formulario");
           return false;
         }
         store.commit("setForm", form);
@@ -78,11 +79,6 @@ export default {
       cancel,
       next
     }
-  },
-  computed: {
-    steps() {
-      return this.$route.meta.steps;
-    },
   },
 };
 </script>
